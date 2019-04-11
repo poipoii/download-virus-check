@@ -47,8 +47,8 @@ function summary (obj) {
     '  </head>' +
     '  <table width="100%">' +
     '    <colgroup>' +
-    '      <col width=120>' +
-    '      <col width=100>' +
+    '      <col width=150>' +
+    '      <col width=150>' +
     '      <col>' +
     '    </colgroup>' +
     '    <tr>' +
@@ -60,7 +60,14 @@ function summary (obj) {
 
   let body = '';
   for (let i in obj.scans) {
-    body += '<tr><td>' + i + '</td><td class="' + (obj.scans[i].detected ? 'defected' : 'clean') + '">' + obj.scans[i].result + '</td><td>' + (obj.scans[i].detail || '-') + '</td></tr>';
+    var tr = '';
+    // URL Scanner
+    body += '<td>' + i + '</td>';
+    // Result
+    body += '<td class="' + (obj.scans[i].detected ? 'defected' : 'clean') + '" title="' + obj.scans[i].result +'">' + obj.scans[i].result + '</td>';
+    // Detail
+    body += '<td title="' + obj.scans[i].detail +'">' + (obj.scans[i].detail || '-') + '</td></tr>';
+    body += '<tr>' + tr + '</tr>';
   }
 
   return 'data:text/html,' + encodeURIComponent(html.replace('<!-- body -->', body).replace('<!-- styles -->', styles));
@@ -71,16 +78,14 @@ chrome.runtime.onMessage.addListener(request => {
   if (request.cmd === 'report') {
     if (request.download) {
       document.querySelector('[data-id=filename]').textContent = request.download.filename || 'Unknown';
-
-    }
-    else {
       document.querySelector('[data-id=filename]').textContent = request.result.download.filename || 'Unknown';
-
     }
     document.querySelector('[data-id=url]').textContent = request.result.download.url;
     document.querySelector('[data-id=time]').textContent = (new Date(request.result.download.startTime)).toLocaleString();
     document.querySelector('[data-id=report]').textContent = request.result.positives + '/' + request.result.total;
-    document.querySelector('[data-id=permalink]').href = document.querySelector('[data-id=permalink]').textContent = request.result.permalink;
+    var scan_id = request.result.scan_id;
+    var isFile = request.result.permalink.startsWith('https://www.virustotal.com/file/');
+    document.querySelector('[data-id=permalink]').href = document.querySelector('[data-id=permalink]').textContent = 'https://www.virustotal.com/gui/' + (isFile ? 'file/' : 'url/') + scan_id.substring(0, scan_id.indexOf('-')) + '/detection';
 
     document.querySelector('iframe').src = summary(request.result);
   }

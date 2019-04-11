@@ -1,0 +1,26 @@
+body {
+  padding: 10px;
+  font-family: arial,sans-serif;
+  font-size: 13px;
+}
+label {
+  display: block;
+  padding: 3px 0;
+}
+input[type=number] {
+  width: 40px;
+  outline: none;
+}
+label p {
+  font-size: 80%;
+  color: #bfbfbf;
+  margin: 5px 10px;
+}
+textarea {
+  margin-top: 5px;
+  width: 100%;
+  height: 100px;
+}
+#apikey {
+  width: 100%;
+}

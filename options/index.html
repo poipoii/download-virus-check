@@ -2,31 +2,8 @@
 <html>
 <head>
   <title>Options</title>
-  <style>
-    body {
-      padding: 10px;
-      font-family: arial,sans-serif;
-      font-size: 13px;
-    }
-    label {
-      display: block;
-      padding: 3px 0;
-    }
-    input[type=number] {
-      width: 40px;
-      outline: none;
-    }
-    label p {
-      font-size: 80%;
-      color: #bfbfbf;
-      margin: 5px 10px;
-    }
-    textarea {
-      margin-top: 5px;
-      width: 100%;
-      height: 100px;
-    }
-  </style>
+  <meta charset="utf-8"/>
+  <link href="style.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -39,11 +16,15 @@
     <b>Whitelist:</b> (comma separated list of mime types to ignore scan)
     <textarea id="whitelist"></textarea>
   </p>
+  <p>
+    <b>Your API key:</b> (leave blank to use the default)
+    <input type="text" id="apikey"></textarea>
+  </p>
 
   <p>
     <button id="save">Save</button><span id="status"></span>
   </p>
 
-  <script src="index.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
