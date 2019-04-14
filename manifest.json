@@ -19,6 +19,7 @@
 	},
 	"background": {
 		"scripts": [
+			"utils/props.js",
 			"background_script.js"
 		]
 	},
