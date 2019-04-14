@@ -10,13 +10,13 @@
     "test:integration": "jest ./test/integration.spec.js --verbose true || true",
     "build": "node build.js",
     "deploy:chrome": "webstore upload --source=dist --auto-publish",
-    "deploy:firefox": "web-ext sign -s dist"
+    "deploy:firefox": "OK='Your add-on has been submitted for review.'; web-ext sign -s dist | sed -n \"s/\\($OK\\).*$/\\1/;1,/$OK/p\" | perl -pe 'BEGIN { $s=1 } END { exit $s } $s=0 if /'\"$OK\"'/;'"
   },
   "author": "poipoii",
   "license": "MIT",
   "devDependencies": {
     "chai": "4.2.0",
-    "chrome-webstore-upload": "0.2.2",
+    "chrome-webstore-upload-cli": "1.2.0",
     "fs-extra": "7.0.1",
     "jest": "24.7.1",
     "mocha": "6.1.3",
