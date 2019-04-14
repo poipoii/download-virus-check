@@ -3,7 +3,7 @@
 	"name": "Download Virus Checker+",
 	"short_name": "otdvchecker",
 	"description": "Automatically check all the downloads files against well-known anti-viruses using VirusTotal API.",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"permissions": [
 		"storage",
 		"tabs",

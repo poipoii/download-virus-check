@@ -17,9 +17,16 @@ before_install:
   # Launch XVFB
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - "npm i"
 jobs:
   include:
     - node_js: "8.11.3"
 script:
   - npm run test
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: npm run build; npm run deploy:chrome; npm run deploy:firefox
+  on:
+      branch: master
+      # the deployment will be skipped if the last commit doesn't touch the manifest.json file
+      condition: $(git diff-tree --no-commit-id --name-only -r HEAD | sed -n '/manifest/ q 1'; echo $?) = 1
