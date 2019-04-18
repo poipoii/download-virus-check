@@ -10,7 +10,8 @@
 		"tabs",
 		"downloads",
 		"notifications",
-		"https://www.virustotal.com/*"
+		"https://www.virustotal.com/*",
+		"<all_urls>"
 	],
 	"optional_permissions": [
 		"<all_urls>"
@@ -38,5 +39,10 @@
 	"options_ui": {
 		"page": "options/index.html",
 		"chrome_style": true
+	},
+	"browser_specific_settings": {
+		"gecko": {
+		  "id": "{3621d89f-eeab-4d05-8315-0b5cf693d303}"
+		}
 	}
 }

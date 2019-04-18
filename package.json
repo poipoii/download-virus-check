@@ -5,10 +5,13 @@
   "main": "background_script.js",
   "repository": "github:poipoii/download-virus-check",
   "scripts": {
-    "test": "npm run test:unit && npm run test:integration",
+    "start": "npm run build:firefox; web-ext run --target=firefox-desktop --source-dir=dist",
+    "lint": "web-ext lint -s dist",
+    "test": "npm run build:chrome; npm run test:unit && npm run test:integration",
     "test:unit": "mocha ./test/utils.spec.js",
     "test:integration": "jest ./test/integration.spec.js --verbose true || true",
-    "build": "node build.js",
+    "build:chrome": "node build.js; cp manifest.json dist/manifest.json",
+    "build:firefox": "node build.js; cp manifest.firefox.json dist/manifest.json",
     "deploy:chrome": "webstore upload --source=dist --auto-publish",
     "deploy:firefox": "OK='Your add-on has been submitted for review.'; web-ext sign -s dist | sed -n \"s/\\($OK\\).*$/\\1/;1,/$OK/p\" | perl -pe 'BEGIN { $s=1 } END { exit $s } $s=0 if /'\"$OK\"'/;'"
   },

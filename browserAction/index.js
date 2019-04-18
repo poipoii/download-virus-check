@@ -30,6 +30,14 @@ chrome.storage.local.get({
 
 var requestURL = '<all_urls>';
 
+function updateScanMode(scanMode) {
+  chrome.storage.local.set({
+    'scanMode': scanMode
+  }, () => {
+    document.querySelector('[id=onoffswitch]').checked = scanMode == 'file';
+  });
+}
+
 function callRequestPermissions() {
   logging('callRequestPermissions', requestURL);
   var scanMode = document.querySelector('[id=onoffswitch]').checked ? 'file' : 'url';
@@ -47,7 +55,7 @@ function requestPermissions(url) {
     origins: [url]
   }, function(granted) {
     logging('requestPermissions', url, granted);
-    document.querySelector('[id=onoffswitch]').checked = granted;
+    updateScanMode(granted ? 'file' : 'url');
   });
 }
 
@@ -56,6 +64,7 @@ function removePermissions(url) {
     origins: [url]
   }, function(granted) {
     logging('removePermissions', url, granted);
+    updateScanMode('url');
   });
 }
 
@@ -66,16 +75,7 @@ function abortAllActiveScans() {
   });
 }
 
-document.getElementById('onoffswitch').addEventListener('change', scanModeChange);
-// document.getElementById('onoffswitch').addEventListener('change', callRequestPermissions);
-function scanModeChange(event) {
-  var scanMode = event.target.checked ? 'file' : 'url';
-  chrome.storage.local.set({
-    'scanMode': scanMode
-  }, () => {
-    document.querySelector('[id=onoffswitch]').checked = scanMode == 'file';
-  });
-}
+document.getElementById('onoffswitch').addEventListener('change', callRequestPermissions);
 
 document.getElementById('openreport').addEventListener('change', autoOpenReportChange);
 function autoOpenReportChange(event) {

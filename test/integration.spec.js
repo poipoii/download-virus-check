@@ -14,8 +14,8 @@ describe('UI', () => {
     browser = await puppeteer.launch({
       headless: false,
       args: [
-        '--disable-extensions-except=./',
-        '--load-extension=./',
+        '--disable-extensions-except=./dist',
+        '--load-extension=./dist',
       ]
     });
     page = await browser.newPage();
@@ -31,7 +31,7 @@ describe('UI', () => {
   });
 
   test('Homepage', async () => {
-    await page.goto('chrome://extensions');
+    await page.goto('chrome://extensions', pageOptions);
     // id = 'pieaghipemiiilldihmcmomkdighhomb';
     id = await page.evaluate(() => {
       document.querySelector("body > extensions-manager").shadowRoot.querySelector("#items-list").shadowRoot.querySelector("extensions-item").shadowRoot.querySelector("#detailsButton").click();
@@ -64,7 +64,7 @@ describe('UI', () => {
       a.href = 'https://secure.eicar.org/eicar.com.txt';
       a.click();
     });
-    await page.waitFor(5000);
+    await page.waitFor(6000);
 
     var pages = await browser.pages();
     var virustotalReport = false;

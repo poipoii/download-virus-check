@@ -25,7 +25,7 @@ script:
 deploy:
   provider: script
   skip_cleanup: true
-  script: npm run build; npm run deploy:chrome; npm run deploy:firefox
+  script: npm run build:chrome; npm run deploy:chrome; npm run build:firefox; npm run deploy:firefox
   on:
       branch: master
       # the deployment will be skipped if the last commit doesn't touch the manifest.json file
