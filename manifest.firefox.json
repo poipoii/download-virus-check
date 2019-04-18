@@ -4,7 +4,7 @@
 	"short_name": "otdvchecker",
 	"description": "Automatically check all the downloads files against well-known anti-viruses using VirusTotal API.",
 	"homepage_url": "https://github.com/poipoii/download-virus-check",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"permissions": [
 		"storage",
 		"tabs",
