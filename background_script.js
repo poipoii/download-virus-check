@@ -45,7 +45,7 @@ app.on = (id, callback) => {
   app.callbacks[id].push(callback);
 };
 
-var submittedToVirusTotal = function (json) {
+var submittedToVirusTotal = function (json, download) {
   logging('submittedToVirusTotal', json);
   var reportUrl = getReportURL(json.scan_id, json.permalink);
   logging('submittedToVirusTotal reportUrl', reportUrl);
@@ -64,6 +64,7 @@ var submittedToVirusTotal = function (json) {
       });
     }
   });
+  chrome.notifications.clear(download.url, function () {});
   chrome.notifications.create(reportUrl, notificationOptions, (notificationId) => {
     setTimeout(() => {
       chrome.notifications.clear(notificationId, function () {});
@@ -202,7 +203,7 @@ function scan(download) {
       } else if (json.response_code !== 1) {
         throw Error('virustotal -> scan -> server rejection, ' + req.response.verbose_msg);
       }
-      submittedToVirusTotal(json);
+      submittedToVirusTotal(json, download);
       return {
         download,
         permalink: json.permalink,
@@ -214,6 +215,17 @@ function scan(download) {
 function scan_file(download) {
   let d = Promise.defer();
   logging('scan_file', download.url);
+  var notificationOptions = {
+    type: 'basic',
+    iconUrl: './icons/48.png',
+    title: 'Download Virus Checker+',
+    message: 'Upload to VirusTotal...',
+  };
+  chrome.notifications.create(download.url, notificationOptions, (notificationId) => {
+    setTimeout(() => {
+      chrome.notifications.clear(notificationId, function () {});
+    }, 10000);
+  });
   var req = new XMLHttpRequest();
   req.responseType = 'arraybuffer';
   req.open('GET', download.url, true);
@@ -243,7 +255,7 @@ function scan_file(download) {
             throw Error('virustotal -> scan -> server rejection, ' + req.response.verbose_msg);
           }
           logging(download, json);
-          submittedToVirusTotal(json);
+          submittedToVirusTotal(json, download);
           return {
             download,
             permalink: json.permalink,
