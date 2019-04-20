@@ -21,7 +21,7 @@ jobs:
   include:
     - node_js: "8.11.3"
 script:
-  - npm run test
+  - npm test
 deploy:
   provider: script
   skip_cleanup: true

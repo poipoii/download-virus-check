@@ -15,8 +15,17 @@ body {
 }
 
 button {
+  background-color: #fff;
   border-radius: 0px;
+  border: 2px solid #27A1CA;
+  cursor: pointer;
   height: 30px;
+}
+
+button:disabled {
+  background-color: #f3f3f3;
+  border-color: #adadad;
+  cursor: not-allowed;
 }
 
 .onoffswitch {
